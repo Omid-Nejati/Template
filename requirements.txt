@@ -1,0 +1,15 @@
+einops
+timm
+medmnist
+numpy
+pandas
+scikit-learn
+scikit-image
+fvcore
+tqdm
+Pillow
+fire
+torchattacks
+torch
+torchvision
+natten==0.17.1+torch230cu121 -f https://shi-labs.com/natten/wheels/
