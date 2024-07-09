@@ -75,7 +75,7 @@ def main():
     train_transform = transforms.Compose([
         transforms.RandomResizedCrop(224),
         transforms.Lambda(lambda image: image.convert('RGB')),
-        transforms.RandomHorizontalFlip(),
+        transforms.RandomHorizontalFlip(p=0.4),
         transforms.ToTensor(),
         transforms.Normalize(mean=[.5], std=[.5])
     ])
@@ -142,10 +142,10 @@ def main():
               (epoch + 1, running_loss / train_steps, val_accurate))
 
         if val_accurate > best_acc:
+            print()
             print('Saving checkpoint...')
             best_acc = val_accurate
             torch.save(net.state_dict(), save_path)
-            print()
 
     print('Finished Training')
 
