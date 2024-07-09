@@ -23,7 +23,7 @@ import natten
 import torchattacks
 from torchattacks import PGD, FGSM
 
-from MedViT import  MedViT_tiny, MedViT_small, MedViT_base, MedViT_large
+from MedViT import  MedViT_small, MedViT_base, MedViT_large
 
 
 
@@ -32,7 +32,7 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print("using {} device.".format(device))
     model_name = 'MedViT_tiny'
-    
+   
 
     data_flag = 'breastmnist'
 # [tissuemnist, pathmnist, chestmnist, dermamnist, octmnist,
@@ -131,6 +131,7 @@ def main():
               (epoch + 1, running_loss / train_steps, val_accurate))
 
         if val_accurate > best_acc:
+            print('Saving checkpoint...')
             best_acc = val_accurate
             torch.save(net.state_dict(), save_path)
 
