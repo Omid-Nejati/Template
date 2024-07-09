@@ -23,7 +23,7 @@ import natten
 import torchattacks
 from torchattacks import PGD, FGSM
 
-from MedViT import  MedViT_small, MedViT_base, MedViT_large
+from MedViT import MedViT_tiny, MedViT_small, MedViT_base, MedViT_large
 
 
 
@@ -42,7 +42,7 @@ def main():
     download = True
 
     batch_size = 32
-    lr = 0.001
+    lr = 0.007
 
     info = INFO[data_flag]
     task = info['task']
@@ -54,10 +54,21 @@ def main():
     print("number of channels : ", n_channels)
     print("number of classes : ", n_classes)
     
-    net = MedViT_small(num_classes=n_classes)
+    net = MedViT_tiny(num_classes=n_classes)
     net.to(device)
+    
+    path = '/content/drive/MyDrive/MedViTV2_tiny.pth'
+    checkpoint = torch.load(path)
+    state_dict = net.state_dict()
+    checkpoint_model = checkpoint['model']
+    for k in ['proj_head.0.weight', 'proj_head.0.bias']:
+                if k in checkpoint_model and checkpoint_model[k].shape != state_dict[k].shape:
+                    print(f"Removing key {k} from pretrained checkpoint")
+                    del checkpoint_model[k]
+    net.load_state_dict(checkpoint_model, strict=False)
+    
     loss_function = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(net.parameters(), lr=0.07, momentum=0.9)
+    optimizer = optim.SGD(net.parameters(), lr=0.007, momentum=0.9)
     
     from torchvision.transforms.transforms import Resize
     # preprocessing
@@ -134,6 +145,7 @@ def main():
             print('Saving checkpoint...')
             best_acc = val_accurate
             torch.save(net.state_dict(), save_path)
+            print()
 
     print('Finished Training')
 
