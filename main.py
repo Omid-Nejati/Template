@@ -32,7 +32,7 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print("using {} device.".format(device))
     model_name = 'MedViT_tiny'
-   
+    
 
     data_flag = 'breastmnist'
 # [tissuemnist, pathmnist, chestmnist, dermamnist, octmnist,
