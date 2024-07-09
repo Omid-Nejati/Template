@@ -23,7 +23,7 @@ import natten
 import torchattacks
 from torchattacks import PGD, FGSM
 
-from MedViT import  MedViT_small, MedViT_base, MedViT_large
+from MedViT import  MedViT_tiny, MedViT_small, MedViT_base, MedViT_large
 
 
 
